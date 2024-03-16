@@ -38,9 +38,7 @@
 		table.column({
 			accessor: ({ id }) => id,
 			header: '',
-			cell: ({ value }) => {
-				return createRender(TableTenantActions, { id: value });
-			}
+			cell: ({ value }) => createRender(TableTenantActions, { id: value })
 		})
 	]);
 

@@ -9,6 +9,7 @@
 
 	let className: $$Props['class'] = undefined;
 	export let inset: $$Props['inset'] = undefined;
+
 	export { className as class };
 </script>
 

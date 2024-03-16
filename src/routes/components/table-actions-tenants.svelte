@@ -1,10 +1,17 @@
 <script lang="ts">
-	import { Ellipsis, Trash2 } from 'lucide-svelte/icons';
+	import { Ellipsis, Pencil, History, Trash2 } from 'lucide-svelte/icons';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { Button } from '$lib/components/ui/button';
+	import DialogDeleteTenant from './dialog-delete-tenant.svelte';
 
 	export let id: number;
+
+	const actions = {
+		delete: false
+	};
 </script>
+
+<DialogDeleteTenant isOpen={actions.delete} {id} />
 
 <DropdownMenu.Root>
 	<DropdownMenu.Trigger asChild let:builder>
@@ -16,10 +23,22 @@
 	<DropdownMenu.Content>
 		<DropdownMenu.Group>
 			<DropdownMenu.Label>Actions of {id}</DropdownMenu.Label>
-			<DropdownMenu.Item>Update</DropdownMenu.Item>
-			<DropdownMenu.Item>Delete</DropdownMenu.Item>
+			<DropdownMenu.Item class="flex gap-2 data-[highlighted]:text-amber-400">
+				<Pencil class="h-4 w-4" />
+				Update
+			</DropdownMenu.Item>
+			<DropdownMenu.Item
+				class="flex gap-2 data-[highlighted]:text-red-400"
+				on:click={() => (actions.delete = true)}
+			>
+				<Trash2 class="h-4 w-4" />
+				Delete
+			</DropdownMenu.Item>
 		</DropdownMenu.Group>
 		<DropdownMenu.Separator />
-		<DropdownMenu.Item>View history</DropdownMenu.Item>
+		<DropdownMenu.Item class="flex gap-2">
+			<History class="h-4 w-4" />
+			View history
+		</DropdownMenu.Item>
 	</DropdownMenu.Content>
 </DropdownMenu.Root>

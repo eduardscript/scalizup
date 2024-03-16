@@ -8,7 +8,7 @@
 	import { superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 
-	let open = true;
+	let open = false;
 
 	const form = superForm($tenants.forms.create, {
 		validators: zodClient(formSchema),
@@ -22,10 +22,8 @@
 	const { form: formData, enhance } = form;
 </script>
 
+<Button on:click={() => (open = true)}>Create a Business</Button>
 <Dialog.Root bind:open>
-	<Dialog.Trigger>
-		<Button>Create a Business</Button>
-	</Dialog.Trigger>
 	<Dialog.Content>
 		<Dialog.Header>
 			<Dialog.Title>Create a New Business</Dialog.Title>

@@ -1,7 +1,4 @@
 <script lang="ts">
-	import { formSchema } from './schema';
-	import { superForm } from 'sveltekit-superforms';
-	import { zodClient } from 'sveltekit-superforms/adapters';
 	import TenantsTable from './components/tenants-table.svelte';
 	import { tenants } from '$lib/stores/tenants';
 	import DialogCreateTenant from './components/dialog-create-tenant.svelte';
