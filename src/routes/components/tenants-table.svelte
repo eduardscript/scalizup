@@ -1,16 +1,28 @@
 <script lang="ts">
-	import { createTable, Render, Subscribe } from 'svelte-headless-table';
-	import { readable } from 'svelte/store';
+	import { createRender, createTable, Render, Subscribe } from 'svelte-headless-table';
 	import * as Table from '$lib/components/ui/table';
 	import { Button } from '$lib/components/ui/button';
 	import { addPagination } from 'svelte-headless-table/plugins';
-	import type { schema } from '$lib/db/schema';
+	import { tenants } from '$lib/stores/tenants';
+	import { writable } from 'svelte/store';
+	import { goto } from '$app/navigation';
+	import { DEFAULT_PAGE_OPTIONS } from '$lib/utils/default';
+	import TableTenantActions from './table-actions-tenants.svelte';
 
-	export let data: (typeof schema.tenant.$inferSelect)[];
+	let store = writable($tenants.tenants);
 
-	const table = createTable(readable(data), {
+	let itemsCount = writable($tenants.count);
+
+	$: {
+		store.set($tenants.tenants);
+		itemsCount.set($tenants.count);
+	}
+
+	const table = createTable(store, {
 		page: addPagination({
-			initialPageSize: 3
+			serverSide: true,
+			serverItemCount: itemsCount,
+			initialPageSize: DEFAULT_PAGE_OPTIONS.pageSize
 		})
 	});
 
@@ -22,13 +34,20 @@
 		table.column({
 			accessor: 'name',
 			header: 'Name'
+		}),
+		table.column({
+			accessor: ({ id }) => id,
+			header: '',
+			cell: ({ value }) => {
+				return createRender(TableTenantActions, { id: value });
+			}
 		})
 	]);
 
 	const { headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } =
 		table.createViewModel(columns);
 
-	const { hasNextPage, hasPreviousPage, pageIndex } = pluginStates.page;
+	const { hasNextPage, hasPreviousPage, pageIndex, pageCount } = pluginStates.page;
 </script>
 
 <div>
@@ -70,14 +89,21 @@
 		<Button
 			variant="outline"
 			size="sm"
-			on:click={() => ($pageIndex = $pageIndex - 1)}
+			on:click={() => {
+				$pageIndex = $pageIndex - 1;
+				goto(`/?page=${$pageIndex + 1}`);
+			}}
 			disabled={!$hasPreviousPage}>Previous</Button
 		>
+		<div>{$pageIndex + 1} of {$pageCount}</div>
 		<Button
 			variant="outline"
 			size="sm"
 			disabled={!$hasNextPage}
-			on:click={() => ($pageIndex = $pageIndex + 1)}>Next</Button
+			on:click={() => {
+				$pageIndex = $pageIndex + 1;
+				goto(`/?page=${$pageIndex + 1}`);
+			}}>Next</Button
 		>
 	</div>
 </div>
