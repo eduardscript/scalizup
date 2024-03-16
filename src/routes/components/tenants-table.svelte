@@ -8,6 +8,12 @@
 	import { goto } from '$app/navigation';
 	import { DEFAULT_PAGE_OPTIONS } from '$lib/utils/default';
 	import TableTenantActions from './table-actions-tenants.svelte';
+	import ChevronLeft from 'svelte-radix/ChevronLeft.svelte';
+	import ChevronRight from 'svelte-radix/ChevronRight.svelte';
+	import * as Pagination from '$lib/components/ui/pagination';
+	import { mediaQuery } from 'svelte-legos';
+
+	const isDesktop = mediaQuery('(min-width: 768px)');
 
 	let store = writable($tenants.tenants);
 
@@ -16,6 +22,14 @@
 	$: {
 		store.set($tenants.tenants);
 		itemsCount.set($tenants.count);
+	}
+
+	$: {
+		// If there are no tenants, redirect to the first page
+		// FIX in the server
+		if ($tenants.tenants.length === 0) {
+			goto('/?page=1');
+		}
 	}
 
 	const table = createTable(store, {
@@ -45,7 +59,7 @@
 	const { headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } =
 		table.createViewModel(columns);
 
-	const { hasNextPage, hasPreviousPage, pageIndex, pageCount } = pluginStates.page;
+	const { hasNextPage, hasPreviousPage, pageIndex, pageCount, pageSize } = pluginStates.page;
 </script>
 
 <div>
@@ -104,4 +118,38 @@
 			}}>Next</Button
 		>
 	</div>
+
+	<Pagination.Root count={$pageCount * $pageSize} perPage={$pageSize} let:pages let:currentPage>
+		<Pagination.Content>
+			<Pagination.Item>
+				<Pagination.PrevButton
+					on:click={() => {
+						$pageIndex = $pageIndex - 1;
+						goto(`/?page=${$pageIndex + 1}`);
+					}}
+				/>
+			</Pagination.Item>
+			{#each pages as page (page.key)}
+				{#if page.type === 'ellipsis'}
+					<Pagination.Item>
+						<Pagination.Ellipsis />
+					</Pagination.Item>
+				{:else}
+					<Pagination.Item>
+						<Pagination.Link {page} isActive={currentPage == page.value}>
+							{page.value}
+						</Pagination.Link>
+					</Pagination.Item>
+				{/if}
+			{/each}
+			<Pagination.Item>
+				<Pagination.NextButton
+					on:click={() => {
+						$pageIndex = $pageIndex + 1;
+						goto(`/?page=${$pageIndex + 1}`);
+					}}
+				/>
+			</Pagination.Item>
+		</Pagination.Content>
+	</Pagination.Root>
 </div>

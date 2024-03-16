@@ -11,7 +11,9 @@
 	};
 </script>
 
-<DialogDeleteTenant isOpen={actions.delete} {id} />
+{#if actions.delete}
+	<DialogDeleteTenant open={actions.delete} {id} />
+{/if}
 
 <DropdownMenu.Root>
 	<DropdownMenu.Trigger asChild let:builder>

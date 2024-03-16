@@ -5,12 +5,13 @@
 
 	export let data;
 
+	$: console.log('re-rendered');
 	$: $tenants = {
 		tenants: data.dbTenants,
 		count: data.count,
-		totalPages: data.totalPages,
 		forms: {
-			create: data.form
+			create: data.form,
+			delete: data.deleteForm
 		}
 	};
 </script>
@@ -18,7 +19,7 @@
 <div class="mb-3 flex justify-end">
 	<DialogCreateTenant />
 </div>
-{#if $tenants.tenants.length === 0}
+{#if $tenants.count === 0}
 	<div class="flex justify-center font-semibold">No tenants created yet!</div>
 {:else}
 	<TenantsTable />

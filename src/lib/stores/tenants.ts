@@ -5,7 +5,6 @@ import type { SuperValidated } from 'sveltekit-superforms';
 type TenantData = {
 	tenants: (typeof tenantSchema.$inferSelect)[];
 	count: number;
-	totalPages: number;
 	forms: {
 		create: SuperValidated<
 			{
@@ -16,14 +15,23 @@ type TenantData = {
 				name: string;
 			}
 		>;
+		delete: SuperValidated<
+			{
+				id: number;
+			},
+			any,
+			{
+				id: number;
+			}
+		>;
 	};
 };
 
 export const tenants: Writable<TenantData> = writable({
 	count: 0,
-	totalPages: 0,
 	tenants: [],
 	forms: {
-		create: null!
+		create: null!,
+		delete: null!
 	}
 });

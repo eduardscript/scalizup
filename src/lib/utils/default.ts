@@ -1,3 +1,3 @@
 export const DEFAULT_PAGE_OPTIONS = {
-	pageSize: 5
+	pageSize: 3
 };

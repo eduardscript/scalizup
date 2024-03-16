@@ -30,7 +30,7 @@
 			<Dialog.Description>
 				Please enter the name of the new business. This name will be publicly displayed.
 			</Dialog.Description>
-			<form method="POST" use:enhance>
+			<form method="POST" action="?/create" use:enhance>
 				<Form.Field {form} name="name">
 					<Form.Control let:attrs>
 						<Form.Label>Business Name</Form.Label>

@@ -5,10 +5,7 @@ export const formSchema = z.object({
 });
 
 export const deleteSchema = z.object({
-	id: z
-		.string()
-		.transform((val) => parseInt(val))
-		.pipe(z.number().gt(0))
+	id: z.number().gt(0)
 });
 
 export type FormSchema = typeof formSchema;

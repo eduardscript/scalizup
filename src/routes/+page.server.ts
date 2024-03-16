@@ -1,12 +1,12 @@
 import db from '$lib/db';
 import { tenantSchema } from '$lib/db/schema/tenant_schema.js';
-import { fail, type Actions } from '@sveltejs/kit';
+import { fail, redirect, type Actions } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import type { PageServerLoad } from './$types';
-import { formSchema } from './schema';
+import { deleteSchema, formSchema } from './schema';
 import { logger } from '$lib/utils';
-import { asc, count } from 'drizzle-orm';
+import { asc, count, eq } from 'drizzle-orm';
 
 import { z } from 'zod';
 import { DEFAULT_PAGE_OPTIONS } from '$lib/utils/default';
@@ -39,18 +39,16 @@ export const load: PageServerLoad = async ({ url }) => {
 		.selectDistinct({ count: count(tenantSchema.id) })
 		.from(tenantSchema);
 
-	const totalPages = Math.ceil(numberOfTenants[0].count / DEFAULT_PAGE_OPTIONS.pageSize);
-
 	return {
 		form: await superValidate(zod(formSchema)),
+		deleteForm: await superValidate(zod(deleteSchema)),
 		dbTenants,
-		count: numberOfTenants[0].count,
-		totalPages
+		count: numberOfTenants[0].count
 	};
 };
 
 export const actions: Actions = {
-	default: async ({ request }) => {
+	create: async ({ request }) => {
 		const form = await superValidate(request, zod(formSchema));
 
 		if (!form.valid) {
@@ -62,6 +60,23 @@ export const actions: Actions = {
 		await db.insert(tenantSchema).values({ name }).execute();
 
 		logger.info(`Inserted a new tenant with name: ${name}`);
+
+		return {
+			form
+		};
+	},
+	delete: async ({ request }) => {
+		const form = await superValidate(request, zod(deleteSchema));
+
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+
+		const { id } = form.data;
+
+		logger.info(`Deleted tenant with id: ${id}`);
+
+		await db.delete(tenantSchema).where(eq(tenantSchema.id, id));
 
 		return {
 			form
