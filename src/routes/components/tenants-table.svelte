@@ -102,6 +102,7 @@
 		<Pagination.Content>
 			<Pagination.Item>
 				<Pagination.PrevButton
+					disabled={$pageIndex < 1}
 					on:click={() => {
 						$pageIndex = $pageIndex - 1;
 						goto(`/?page=${$pageIndex + 1}`);
@@ -130,6 +131,7 @@
 			{/each}
 			<Pagination.Item>
 				<Pagination.NextButton
+					disabled={$pageIndex + 1 >= $pageCount}
 					on:click={() => {
 						$pageIndex = $pageIndex + 1;
 						goto(`/?page=${$pageIndex + 1}`);
