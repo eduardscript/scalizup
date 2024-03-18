@@ -7,7 +7,6 @@ import type { PageServerLoad } from './$types';
 import { deleteSchema, formSchema } from './schema';
 import { logger } from '$lib/utils';
 import { asc, count, eq } from 'drizzle-orm';
-
 import { z } from 'zod';
 import { DEFAULT_PAGE_OPTIONS } from '$lib/utils/default';
 
@@ -18,13 +17,17 @@ export const load: PageServerLoad = async ({ url }) => {
 		page: z
 			.string()
 			.nullable()
-			.transform((val) => parseInt(val || '1'))
+			.transform((val) => parseInt(val || ''))
 			.transform((val) => (val === 0 ? 1 : val))
 	});
 
 	const queryParams = queryParamsSchema.parse({
 		page: url.searchParams.get('page')
 	});
+
+	if (isNaN(queryParams.page) || queryParams.page < 1) {
+		redirect(301, `${url.pathname}?page=1`);
+	}
 
 	const offset = (queryParams.page - 1) * DEFAULT_PAGE_OPTIONS.pageSize;
 
@@ -35,15 +38,21 @@ export const load: PageServerLoad = async ({ url }) => {
 		.limit(DEFAULT_PAGE_OPTIONS.pageSize)
 		.offset(offset);
 
-	const numberOfTenants = await db
-		.selectDistinct({ count: count(tenantSchema.id) })
-		.from(tenantSchema);
+	const numberOfTenants = (
+		await db.selectDistinct({ count: count(tenantSchema.id) }).from(tenantSchema)
+	)[0].count;
+
+	const numberOfPages = Math.ceil(numberOfTenants / DEFAULT_PAGE_OPTIONS.pageSize);
+
+	if (queryParams.page > numberOfPages) {
+		redirect(301, `${url.pathname}?page=${numberOfPages}`);
+	}
 
 	return {
 		form: await superValidate(zod(formSchema)),
 		deleteForm: await superValidate(zod(deleteSchema)),
 		dbTenants,
-		count: numberOfTenants[0].count
+		count: numberOfTenants
 	};
 };
 

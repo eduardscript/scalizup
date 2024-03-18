@@ -5,7 +5,6 @@
 
 	export let data;
 
-	$: console.log('re-rendered');
 	$: $tenants = {
 		tenants: data.dbTenants,
 		count: data.count,

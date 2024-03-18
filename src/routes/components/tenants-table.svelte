@@ -1,17 +1,15 @@
 <script lang="ts">
 	import { createRender, createTable, Render, Subscribe } from 'svelte-headless-table';
 	import * as Table from '$lib/components/ui/table';
-	import { Button } from '$lib/components/ui/button';
 	import { addPagination } from 'svelte-headless-table/plugins';
 	import { tenants } from '$lib/stores/tenants';
 	import { writable } from 'svelte/store';
 	import { goto } from '$app/navigation';
 	import { DEFAULT_PAGE_OPTIONS } from '$lib/utils/default';
 	import TableTenantActions from './table-actions-tenants.svelte';
-	import ChevronLeft from 'svelte-radix/ChevronLeft.svelte';
-	import ChevronRight from 'svelte-radix/ChevronRight.svelte';
 	import * as Pagination from '$lib/components/ui/pagination';
 	import { mediaQuery } from 'svelte-legos';
+	import { page } from '$app/stores';
 
 	const isDesktop = mediaQuery('(min-width: 768px)');
 
@@ -25,10 +23,8 @@
 	}
 
 	$: {
-		// If there are no tenants, redirect to the first page
-		// FIX in the server
-		if ($tenants.tenants.length === 0) {
-			goto('/?page=1');
+		if ($tenants.tenants.length == 0) {
+			goto(`/?page=${$pageIndex + 1}`);
 		}
 	}
 
@@ -59,7 +55,11 @@
 	const { headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } =
 		table.createViewModel(columns);
 
-	const { hasNextPage, hasPreviousPage, pageIndex, pageCount, pageSize } = pluginStates.page;
+	const { pageIndex, pageCount, pageSize } = pluginStates.page;
+
+	const currentPage = parseInt($page.url.searchParams.get('page')!);
+
+	$pageIndex = currentPage - 1;
 </script>
 
 <div>
@@ -97,29 +97,8 @@
 			</Table.Body>
 		</Table.Root>
 	</div>
-	<div class="flex items-center justify-end space-x-4 py-4">
-		<Button
-			variant="outline"
-			size="sm"
-			on:click={() => {
-				$pageIndex = $pageIndex - 1;
-				goto(`/?page=${$pageIndex + 1}`);
-			}}
-			disabled={!$hasPreviousPage}>Previous</Button
-		>
-		<div>{$pageIndex + 1} of {$pageCount}</div>
-		<Button
-			variant="outline"
-			size="sm"
-			disabled={!$hasNextPage}
-			on:click={() => {
-				$pageIndex = $pageIndex + 1;
-				goto(`/?page=${$pageIndex + 1}`);
-			}}>Next</Button
-		>
-	</div>
 
-	<Pagination.Root count={$pageCount * $pageSize} perPage={$pageSize} let:pages let:currentPage>
+	<Pagination.Root class="py-4" count={$pageCount * $pageSize} perPage={$pageSize} let:pages>
 		<Pagination.Content>
 			<Pagination.Item>
 				<Pagination.PrevButton
@@ -136,7 +115,14 @@
 					</Pagination.Item>
 				{:else}
 					<Pagination.Item>
-						<Pagination.Link {page} isActive={currentPage == page.value}>
+						<Pagination.Link
+							{page}
+							isActive={$pageIndex + 1 == page.value}
+							on:click={() => {
+								$pageIndex = page.value - 1;
+								goto(`/?page=${page.value}`);
+							}}
+						>
 							{page.value}
 						</Pagination.Link>
 					</Pagination.Item>
