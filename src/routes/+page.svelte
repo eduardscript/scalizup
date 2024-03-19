@@ -1,5 +1,5 @@
 <script lang="ts">
-	import TenantsTable from './components/table/tenants-table.svelte';
+	import TenantsTable from './components/table/table-tenants.svelte';
 	import { tenants } from '$lib/stores/tenants';
 	import DialogCreateTenant from './components/dialog/dialog-create-tenant.svelte';
 

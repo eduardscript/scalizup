@@ -7,7 +7,7 @@
 	import { writable } from 'svelte/store';
 	import { goto } from '$app/navigation';
 	import { DEFAULT_PAGE_OPTIONS } from '$lib/utils/default';
-	import TableTenantActions from './table-actions-tenants.svelte';
+	import TableTenantActions from './cells/table-cell-tenant-actions.svelte';
 	import { mediaQuery } from 'svelte-legos';
 	import { page } from '$app/stores';
 	import TableTenantName from '../table-tenant-name.svelte';
