@@ -6,8 +6,9 @@
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { deleteSchema } from '../schema';
 	import { Input } from '$lib/components/ui/input';
+	import { Toaster, toast } from 'svelte-sonner';
 
-	export let open = false;
+	export let open: false;
 	export let id: number;
 
 	const form = superForm($tenants.forms.delete, {
@@ -15,6 +16,7 @@
 		validators: zodClient(deleteSchema),
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
+				toast.error(`Tenant ${id} has been successfully deleted.`);
 				open = false;
 			}
 		}
@@ -48,3 +50,4 @@
 		</AlertDialog.Footer>
 	</AlertDialog.Content>
 </AlertDialog.Root>
+<Toaster richColors />

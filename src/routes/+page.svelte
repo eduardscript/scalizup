@@ -10,6 +10,7 @@
 		count: data.count,
 		forms: {
 			create: data.form,
+			update: data.updateForm,
 			delete: data.deleteForm
 		}
 	};

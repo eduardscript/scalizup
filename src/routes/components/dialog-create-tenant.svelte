@@ -7,6 +7,7 @@
 	import { formSchema } from '../schema';
 	import { superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { Toaster, toast } from 'svelte-sonner';
 
 	let open = false;
 
@@ -15,6 +16,7 @@
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
 				open = false;
+				toast.success(`Tenant ${$formData.name} has been successfully created.`);
 			}
 		}
 	});
@@ -43,3 +45,4 @@
 		</Dialog.Header>
 	</Dialog.Content>
 </Dialog.Root>
+<Toaster richColors />

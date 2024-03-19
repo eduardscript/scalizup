@@ -15,6 +15,19 @@ type TenantData = {
 				name: string;
 			}
 		>;
+		update: SuperValidated<
+			{
+				id: number;
+				name: string;
+				isEnabled: boolean;
+			},
+			any,
+			{
+				id: number;
+				name: string;
+				isEnabled: boolean;
+			}
+		>;
 		delete: SuperValidated<
 			{
 				id: number;
@@ -32,6 +45,7 @@ export const tenants: Writable<TenantData> = writable({
 	tenants: [],
 	forms: {
 		create: null!,
+		update: null!,
 		delete: null!
 	}
 });

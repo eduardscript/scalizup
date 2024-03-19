@@ -1,0 +1,1 @@
+ALTER TABLE "tenant" ALTER COLUMN "is_enabled" SET NOT NULL;

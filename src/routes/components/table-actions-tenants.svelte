@@ -3,17 +3,21 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { Button } from '$lib/components/ui/button';
 	import DialogDeleteTenant from './dialog-delete-tenant.svelte';
+	import DialogUpdateTenant from './dialog-update-tenant.svelte';
+	import type { tenantSchema } from '$lib/db/schema/tenant_schema';
 
-	export let id: number;
+	export let tenant: typeof tenantSchema.$inferSelect;
+
+	const { id, name, isEnabled } = tenant;
 
 	const actions = {
+		update: false,
 		delete: false
 	};
 </script>
 
-{#if actions.delete}
-	<DialogDeleteTenant open={actions.delete} {id} />
-{/if}
+<DialogDeleteTenant bind:open={actions.delete} {id} />
+<DialogUpdateTenant bind:open={actions.update} bind:tenant />
 
 <DropdownMenu.Root>
 	<DropdownMenu.Trigger asChild let:builder>
@@ -25,7 +29,10 @@
 	<DropdownMenu.Content>
 		<DropdownMenu.Group>
 			<DropdownMenu.Label>Actions of {id}</DropdownMenu.Label>
-			<DropdownMenu.Item class="flex gap-2 data-[highlighted]:text-amber-400">
+			<DropdownMenu.Item
+				class="flex gap-2 data-[highlighted]:text-amber-400"
+				on:click={() => (actions.update = true)}
+			>
 				<Pencil class="h-4 w-4" />
 				Update
 			</DropdownMenu.Item>

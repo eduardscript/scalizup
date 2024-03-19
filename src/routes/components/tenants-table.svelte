@@ -10,6 +10,9 @@
 	import * as Pagination from '$lib/components/ui/pagination';
 	import { mediaQuery } from 'svelte-legos';
 	import { page } from '$app/stores';
+	import { Badge } from '$lib/components/ui/badge';
+	import { get } from 'svelte/store';
+	import TableTenantName from './table-tenant-name.svelte';
 
 	const isDesktop = mediaQuery('(min-width: 768px)');
 
@@ -20,12 +23,6 @@
 	$: {
 		store.set($tenants.tenants);
 		itemsCount.set($tenants.count);
-	}
-
-	$: {
-		if ($tenants.tenants.length == 0) {
-			goto(`/?page=${$pageIndex + 1}`);
-		}
 	}
 
 	const table = createTable(store, {
@@ -42,13 +39,16 @@
 			header: 'ID'
 		}),
 		table.column({
-			accessor: 'name',
-			header: 'Name'
+			header: 'Name',
+			accessor: (item) => item,
+			cell: ({ value }) => {
+				return createRender(TableTenantName, { name: value.name, isEnabled: value.isEnabled });
+			}
 		}),
 		table.column({
-			accessor: ({ id }) => id,
+			accessor: (value) => value,
 			header: '',
-			cell: ({ value }) => createRender(TableTenantActions, { id: value })
+			cell: ({ value }) => createRender(TableTenantActions, { tenant: value })
 		})
 	]);
 

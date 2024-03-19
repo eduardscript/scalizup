@@ -4,7 +4,7 @@ import { fail, redirect, type Actions } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import type { PageServerLoad } from './$types';
-import { deleteSchema, formSchema } from './schema';
+import { deleteSchema, formSchema, updateSchema } from './schema';
 import { logger } from '$lib/utils';
 import { asc, count, eq } from 'drizzle-orm';
 import { z } from 'zod';
@@ -43,14 +43,14 @@ export const load: PageServerLoad = async ({ url }) => {
 	)[0].count;
 
 	const numberOfPages = Math.ceil(numberOfTenants / DEFAULT_PAGE_OPTIONS.pageSize);
-
-	if (queryParams.page > numberOfPages) {
+	if (numberOfPages > 0 && queryParams.page > numberOfPages) {
 		redirect(301, `${url.pathname}?page=${numberOfPages}`);
 	}
 
 	return {
 		form: await superValidate(zod(formSchema)),
 		deleteForm: await superValidate(zod(deleteSchema)),
+		updateForm: await superValidate(zod(updateSchema)),
 		dbTenants,
 		count: numberOfTenants
 	};
@@ -86,6 +86,23 @@ export const actions: Actions = {
 		logger.info(`Deleted tenant with id: ${id}`);
 
 		await db.delete(tenantSchema).where(eq(tenantSchema.id, id));
+
+		return {
+			form
+		};
+	},
+	update: async ({ request }) => {
+		const form = await superValidate(request, zod(updateSchema));
+
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+
+		const { id } = form.data;
+
+		logger.info(`Update tenant with id: ${id}`);
+
+		await db.update(tenantSchema).set(form.data).where(eq(tenantSchema.id, id)).execute();
 
 		return {
 			form
