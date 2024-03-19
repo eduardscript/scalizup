@@ -4,7 +4,7 @@
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
 	import { tenants } from '$lib/stores/tenants';
-	import { formSchema } from '../schema';
+	import { formSchema } from '../../schema';
 	import { superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { Toaster, toast } from 'svelte-sonner';

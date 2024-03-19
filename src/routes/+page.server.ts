@@ -18,12 +18,18 @@ export const load: PageServerLoad = async ({ url }) => {
 			.string()
 			.nullable()
 			.transform((val) => parseInt(val || ''))
-			.transform((val) => (val === 0 ? 1 : val))
+			.transform((val) => (val === 0 ? 1 : val)),
+		tenant: z.string().nullable()
 	});
 
 	const queryParams = queryParamsSchema.parse({
-		page: url.searchParams.get('page')
+		page: url.searchParams.get('page'),
+		tenant: url.searchParams.get('tenant')
 	});
+
+	if (queryParams.tenant) {
+		console.log('tenant', queryParams.tenant);
+	}
 
 	if (isNaN(queryParams.page) || queryParams.page < 1) {
 		redirect(301, `${url.pathname}?page=1`);
@@ -52,7 +58,8 @@ export const load: PageServerLoad = async ({ url }) => {
 		deleteForm: await superValidate(zod(deleteSchema)),
 		updateForm: await superValidate(zod(updateSchema)),
 		dbTenants,
-		count: numberOfTenants
+		count: numberOfTenants,
+		totalPages: numberOfPages
 	};
 };
 

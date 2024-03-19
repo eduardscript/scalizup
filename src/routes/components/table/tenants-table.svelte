@@ -1,18 +1,16 @@
 <script lang="ts">
-	import { createRender, createTable, Render, Subscribe } from 'svelte-headless-table';
 	import * as Table from '$lib/components/ui/table';
+	import * as Pagination from '$lib/components/ui/pagination';
+	import { createRender, createTable, Render, Subscribe } from 'svelte-headless-table';
 	import { addPagination } from 'svelte-headless-table/plugins';
 	import { tenants } from '$lib/stores/tenants';
 	import { writable } from 'svelte/store';
 	import { goto } from '$app/navigation';
 	import { DEFAULT_PAGE_OPTIONS } from '$lib/utils/default';
 	import TableTenantActions from './table-actions-tenants.svelte';
-	import * as Pagination from '$lib/components/ui/pagination';
 	import { mediaQuery } from 'svelte-legos';
 	import { page } from '$app/stores';
-	import { Badge } from '$lib/components/ui/badge';
-	import { get } from 'svelte/store';
-	import TableTenantName from './table-tenant-name.svelte';
+	import TableTenantName from '../table-tenant-name.svelte';
 
 	const isDesktop = mediaQuery('(min-width: 768px)');
 
@@ -98,7 +96,7 @@
 		</Table.Root>
 	</div>
 
-	<Pagination.Root class="py-4" count={$pageCount * $pageSize} perPage={$pageSize} let:pages>
+	<Pagination.Root class="py-4" count={$tenants.count} perPage={$pageSize} let:pages>
 		<Pagination.Content>
 			<Pagination.Item>
 				<Pagination.PrevButton

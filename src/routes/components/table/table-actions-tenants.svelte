@@ -2,8 +2,8 @@
 	import { Ellipsis, Pencil, History, Trash2 } from 'lucide-svelte/icons';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { Button } from '$lib/components/ui/button';
-	import DialogDeleteTenant from './dialog-delete-tenant.svelte';
-	import DialogUpdateTenant from './dialog-update-tenant.svelte';
+	import DialogDeleteTenant from '../dialog-delete-tenant.svelte';
+	import DialogUpdateTenant from '../dialog-update-tenant.svelte';
 	import type { tenantSchema } from '$lib/db/schema/tenant_schema';
 
 	export let tenant: typeof tenantSchema.$inferSelect;

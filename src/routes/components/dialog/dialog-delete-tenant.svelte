@@ -4,11 +4,11 @@
 	import { tenants } from '$lib/stores/tenants';
 	import { superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { deleteSchema } from '../schema';
+	import { deleteSchema } from '../../schema';
 	import { Input } from '$lib/components/ui/input';
 	import { Toaster, toast } from 'svelte-sonner';
 
-	export let open: false;
+	export let open: boolean;
 	export let id: number;
 
 	const form = superForm($tenants.forms.delete, {

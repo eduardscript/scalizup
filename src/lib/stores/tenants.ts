@@ -5,6 +5,7 @@ import type { SuperValidated } from 'sveltekit-superforms';
 type TenantData = {
 	tenants: (typeof tenantSchema.$inferSelect)[];
 	count: number;
+	totalPages: number;
 	forms: {
 		create: SuperValidated<
 			{
