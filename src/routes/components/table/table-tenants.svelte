@@ -10,7 +10,8 @@
 	import TableTenantActions from './cells/table-cell-tenant-actions.svelte';
 	import { mediaQuery } from 'svelte-legos';
 	import { page } from '$app/stores';
-	import TableTenantName from '../table-tenant-name.svelte';
+	import TableCellTenantName from './cells/table-cell-tenant-name.svelte';
+	import TableCellTenantEntities from './cells/table-cell-tenant-entities.svelte';
 
 	const isDesktop = mediaQuery('(min-width: 768px)');
 
@@ -40,13 +41,18 @@
 			header: 'Name',
 			accessor: (item) => item,
 			cell: ({ value }) => {
-				return createRender(TableTenantName, { name: value.name, isEnabled: value.isEnabled });
+				return createRender(TableCellTenantName, { name: value.name, isEnabled: value.isEnabled });
 			}
 		}),
 		table.column({
 			accessor: (value) => value,
 			header: '',
 			cell: ({ value }) => createRender(TableTenantActions, { tenant: value })
+		}),
+		table.column({
+			accessor: (value) => value,
+			header: 'Related Entities',
+			cell: ({ value }) => createRender(TableCellTenantEntities)
 		})
 	]);
 

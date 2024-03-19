@@ -3,7 +3,7 @@
 	import * as Form from '$lib/components/ui/form';
 	import type { tenantSchema } from '$lib/db/schema/tenant_schema';
 	import { tenants } from '$lib/stores/tenants';
-	import { updateSchema } from '../schema';
+	import { updateSchema } from '../../schema';
 	import { superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { Switch } from '$lib/components/ui/switch';
