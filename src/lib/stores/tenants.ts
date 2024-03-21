@@ -44,6 +44,7 @@ type TenantData = {
 export const tenants: Writable<TenantData> = writable({
 	count: 0,
 	tenants: [],
+	totalPages: 0,
 	forms: {
 		create: null!,
 		update: null!,

@@ -8,7 +8,7 @@
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { Switch } from '$lib/components/ui/switch';
 	import { Input } from '$lib/components/ui/input';
-	import { Toaster, toast } from 'svelte-sonner';
+	import { toast } from 'svelte-sonner';
 
 	export let open: boolean;
 
@@ -72,4 +72,3 @@
 		</Dialog.Header>
 	</Dialog.Content>
 </Dialog.Root>
-<Toaster richColors />

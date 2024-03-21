@@ -2,11 +2,16 @@
 	import { Ellipsis, Pencil, History, Trash2 } from 'lucide-svelte/icons';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { Button } from '$lib/components/ui/button';
-	import DialogDeleteTenant from '../../dialog/dialog-delete-tenant.svelte';
-	import DialogUpdateTenant from '../../dialog/dialog-update-tenant.svelte';
-	import type { tenantSchema } from '$lib/db/schema/tenant_schema';
+	import type { tagGroupSchema } from '$lib/db/schema/tenant_schema';
+	import DialogDeleteTagGroup from '../dialog/dialog-delete-tag-group.svelte';
+	import type { deleteSchema, updateSchema } from '../../schemas';
+	import DialogUpdateTagGroup from '../dialog/dialog-update-tag-group.svelte';
 
-	export let tenant: typeof tenantSchema.$inferSelect;
+	export let tagGroup: typeof tagGroupSchema.$inferSelect;
+	export let forms: {
+		delete: typeof deleteSchema._type;
+		update: typeof updateSchema._type;
+	};
 
 	const actions = {
 		update: false,
@@ -14,8 +19,8 @@
 	};
 </script>
 
-<DialogDeleteTenant bind:open={actions.delete} id={tenant.id} />
-<DialogUpdateTenant bind:open={actions.update} {tenant} />
+<DialogDeleteTagGroup bind:open={actions.delete} {tagGroup} deleteForm={forms.delete} />
+<DialogUpdateTagGroup bind:open={actions.update} {tagGroup} updateForm={forms.update} />
 
 <DropdownMenu.Root>
 	<DropdownMenu.Trigger asChild let:builder>
@@ -26,7 +31,7 @@
 	</DropdownMenu.Trigger>
 	<DropdownMenu.Content>
 		<DropdownMenu.Group>
-			<DropdownMenu.Label>Actions of {tenant.id}</DropdownMenu.Label>
+			<DropdownMenu.Label>Actions of {tagGroup.id}</DropdownMenu.Label>
 			<DropdownMenu.Item
 				class="flex gap-2 data-[highlighted]:text-amber-400"
 				on:click={() => (actions.update = true)}
