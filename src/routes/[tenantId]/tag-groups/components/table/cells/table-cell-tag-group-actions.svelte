@@ -3,9 +3,9 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { Button } from '$lib/components/ui/button';
 	import type { tagGroupSchema } from '$lib/db/schema/tenant_schema';
-	import DialogDeleteTagGroup from '../dialog/dialog-delete-tag-group.svelte';
-	import type { deleteSchema, updateSchema } from '../../schemas';
-	import DialogUpdateTagGroup from '../dialog/dialog-update-tag-group.svelte';
+	import DialogDeleteTagGroup from '../../dialog/dialog-delete-tag-group.svelte';
+	import DialogUpdateTagGroup from '../../dialog/dialog-update-tag-group.svelte';
+	import type { deleteSchema, updateSchema } from '../../../schemas';
 
 	export let tagGroup: typeof tagGroupSchema.$inferSelect;
 	export let forms: {

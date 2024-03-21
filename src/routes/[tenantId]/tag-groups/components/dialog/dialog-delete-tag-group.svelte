@@ -34,9 +34,9 @@
 <AlertDialog.Root bind:open>
 	<AlertDialog.Content>
 		<AlertDialog.Header>
-			<AlertDialog.Title
-				>Are you sure you want to delete the tag group {tagGroup.name}?</AlertDialog.Title
-			>
+			<AlertDialog.Title>
+				Are you sure you want to delete the tag group {tagGroup.name}?
+			</AlertDialog.Title>
 			<AlertDialog.Description>
 				This action cannot be undone. Deleting this tag group will also delete all the tags
 				associated with it.

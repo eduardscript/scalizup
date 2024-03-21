@@ -5,7 +5,8 @@
 	import { DEFAULT_PAGE_OPTIONS } from '$lib/utils/default';
 	import { writable } from 'svelte/store';
 	import type { tagGroupSchema } from '$lib/db/schema/tenant_schema';
-	import TableCellTagGroupActions from './table-cell-tag-group-actions.svelte';
+	import TableCellTagGroupActions from './cells/table-cell-tag-group-actions.svelte';
+	import TableCellTagGroupEntities from './cells/table-cell-tag-group-entities.svelte';
 
 	export let data: {
 		entities: (typeof tagGroupSchema.$inferSelect)[];
@@ -40,6 +41,18 @@
 		table.column({
 			accessor: 'name',
 			header: 'Name'
+		}),
+		table.column({
+			accessor: (value) => value,
+			id: 'entities',
+			header: 'Related Entities',
+			cell: ({ value }) =>
+				createRender(TableCellTagGroupEntities, {
+					data: {
+						tenantId: value.tenantId,
+						tagGroupId: value.id
+					}
+				})
 		}),
 		table.column({
 			accessor: (value) => value,

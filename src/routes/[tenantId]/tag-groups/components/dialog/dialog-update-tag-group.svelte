@@ -35,8 +35,11 @@
 <Dialog.Root bind:open>
 	<Dialog.Content>
 		<Dialog.Header>
-			<Dialog.Title>Update tenant {$formData.id}</Dialog.Title>
-			<Dialog.Description>Update the tag group</Dialog.Description>
+			<Dialog.Title>Update tag group {$formData.name}</Dialog.Title>
+			<Dialog.Description>
+				Modify the details of the tag group. Please note that updating this tag group will affect
+				all related tags associated with it.
+			</Dialog.Description>
 			<form method="POST" action="?/update" use:enhance>
 				<Form.Field {form} name="tenantId">
 					<Form.Control let:attrs>
@@ -60,7 +63,12 @@
 					<Form.FieldErrors />
 				</Form.Field>
 
-				<Form.Button>Update Tag Group</Form.Button>
+				<div class="flex items-end justify-between">
+					<span class="text-sm font-thin text-slate-500">
+						({$formData.id})
+					</span>
+					<Form.Button>Update</Form.Button>
+				</div>
 			</form>
 		</Dialog.Header>
 	</Dialog.Content>
