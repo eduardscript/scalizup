@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Badge from '$lib/components/ui/badge/badge.svelte';
-	import { Toaster } from 'svelte-sonner';
 	import DialogCreateTagGroup from './components/dialog/dialog-create-tag-group.svelte';
 	import TableTagGroups from './components/table/table-tag-groups.svelte';
 
