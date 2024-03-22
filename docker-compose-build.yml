@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  scalizup-cons:
+  backoffice:
     image: scalizup-cons
     ports:
       - '3000:3000'
@@ -10,6 +10,7 @@ services:
       - DB_USER=postgres
       - DB_PASSWORD=postgres123
       - DB_DATABASE=dts
+      - ORIGIN=http://localhost:3000
 networks:
   default:
     external:

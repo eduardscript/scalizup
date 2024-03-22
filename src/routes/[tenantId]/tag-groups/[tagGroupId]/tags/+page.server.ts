@@ -14,8 +14,8 @@ export const load: PageServerLoad = async ({ url, params: { tenantId, tagGroupId
 	logger.info(`Getting all tags of tenant ${tenantId} and tag group ${tagGroupId}`);
 
 	const queryParamsSchema = z.object({
-		tenantId: z.coerce.number().gt(2).int(),
-		tagGroupId: z.coerce.number().gt(2).int(),
+		tenantId: z.coerce.number().gt(0).int(),
+		tagGroupId: z.coerce.number().gt(0).int(),
 		page: z
 			.string()
 			.nullable()

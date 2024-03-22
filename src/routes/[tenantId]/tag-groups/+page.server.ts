@@ -2,7 +2,7 @@ import db from '$lib/db';
 import { tagGroupSchema } from '$lib/db/schema/tenant_schema';
 import { logger } from '$lib/utils';
 import { and, asc, count, eq } from 'drizzle-orm';
-import type { PageServerLoad } from '../$types';
+import type { PageServerLoad } from './$types';
 import type { Actions } from './$types';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
@@ -15,7 +15,7 @@ export const load: PageServerLoad = async ({ url, params: { tenantId } }) => {
 	logger.info(`Getting all tag tag groups of tenant ${tenantId}`);
 
 	const queryParamsSchema = z.object({
-		tenantId: z.coerce.number().gt(2).int(),
+		tenantId: z.coerce.number().gt(0).int(),
 		page: z
 			.string()
 			.nullable()

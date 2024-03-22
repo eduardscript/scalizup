@@ -22,12 +22,6 @@ const migrateSchemas = async () => {
 
 	let folder = '';
 
-	if (env.NODE_ENV === 'production') {
-		folder = path.basename(path.resolve(process.cwd()));
-		logger.info('Migrations folder ', folder);
-	}
-
-	logger.info(`Schemas locations /${folder}drizzle`);
 	await migrate(db, { migrationsFolder: `${folder}drizzle` });
 };
 
