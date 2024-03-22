@@ -3,6 +3,8 @@ import postgres from 'postgres';
 import * as schema from './schema';
 import { env } from '$env/dynamic/private';
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
+import path from 'path';
+import { logger } from '$lib/utils';
 
 const sql = postgres({
 	host: env.DB_HOST,
@@ -16,10 +18,17 @@ const sql = postgres({
 const db = drizzle(sql, { ...schema });
 
 const migrateSchemas = async () => {
-	await migrate(db, { migrationsFolder: 'drizzle' });
+	logger.info('Migrating schemas');
 
-	// Run the following to migrate the schema
-	// await sql.end();
+	let folder = '';
+
+	if (env.NODE_ENV === 'production') {
+		folder = path.basename(path.resolve(process.cwd()));
+		logger.info('Migrations folder ', folder);
+	}
+
+	logger.info(`Schemas locations /${folder}drizzle`);
+	await migrate(db, { migrationsFolder: `${folder}drizzle` });
 };
 
 await migrateSchemas();

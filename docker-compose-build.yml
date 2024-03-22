@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  scalizup-cons:
+    image: scalizup-cons
+    ports:
+      - '3000:3000'
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres123
+      - DB_DATABASE=dts
+networks:
+  default:
+    external:
+      name: internal-scalizup

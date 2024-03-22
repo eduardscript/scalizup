@@ -26,3 +26,8 @@ services:
 volumes:
   local_pgdata:
   pgadmin-data:
+
+networks:
+  default:
+    external:
+      name: internal-scalizup
