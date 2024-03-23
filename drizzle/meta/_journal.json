@@ -64,6 +64,20 @@
       "when": 1711034279839,
       "tag": "0008_fixed_spacker_dave",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1711154921156,
+      "tag": "0009_red_lord_tyger",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1711154954235,
+      "tag": "0010_optimal_sway",
+      "breakpoints": true
     }
   ]
 }

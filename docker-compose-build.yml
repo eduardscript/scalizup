@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   backoffice:
-    image: scalizup-cons
+    image: ghcr.io/eduardscript/backoffice
     ports:
       - '3000:3000'
     environment:
@@ -10,7 +10,7 @@ services:
       - DB_USER=postgres
       - DB_PASSWORD=postgres123
       - DB_DATABASE=dts
-      - ORIGIN=http://localhost:3000
+      - ORIGIN=https://scalizup.com
 networks:
   default:
     external:

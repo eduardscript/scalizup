@@ -1,7 +1,8 @@
 import { pgTable, text, timestamp } from 'drizzle-orm/pg-core';
 
 export const userSchema = pgTable('user', {
-	id: text('id').primaryKey()
+	id: text('id').primaryKey(),
+	username: text('username').notNull().unique()
 });
 
 export const sessionSchema = pgTable('session', {

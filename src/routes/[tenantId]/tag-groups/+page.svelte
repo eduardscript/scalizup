@@ -8,7 +8,6 @@
 
 <div class="mb-3 flex justify-between">
 	<div>
-		<Badge class="w-fit text-sm">{data.tenantId}</Badge>
 		<span class="font-bold">Tag Groups Management</span>
 	</div>
 	<DialogCreateTagGroup createForm={data.forms.create} />
@@ -25,3 +24,5 @@
 		}}
 	/>
 {/if}
+
+<Badge class="w-fit text-sm">{data.tenantId}</Badge>
