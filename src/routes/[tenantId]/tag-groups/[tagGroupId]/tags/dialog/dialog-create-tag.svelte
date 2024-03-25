@@ -1,16 +1,16 @@
 <script lang="ts">
-	import Button from '$lib/components/ui/button/button.svelte';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import * as Form from '$lib/components/ui/form';
+	import Button from '$lib/components/ui/button/button.svelte';
 	import { Input } from '$lib/components/ui/input';
-	import { superForm } from 'sveltekit-superforms';
+	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { toast } from 'svelte-sonner';
-	import { createSchema } from '../schemas';
+	import { createSchema, type CreateSchema } from '../schemas';
 
 	let open = false;
 
-	export let createForm;
+	export let createForm: SuperValidated<Infer<CreateSchema>>;
 
 	const form = superForm(createForm, {
 		validators: zodClient(createSchema),

@@ -5,12 +5,13 @@
 	import type { tagSchema } from '$lib/db/schema/tenant_schema';
 	import DialogDeleteTag from '../../dialog/dialog-delete-tag.svelte';
 	import DialogUpdateTag from '../../dialog/dialog-update-tag.svelte';
-	import type { SuperValidated } from 'sveltekit-superforms';
+	import type { Infer, SuperValidated } from 'sveltekit-superforms';
+	import type { DeleteSchema, UpdateSchema } from '../../schemas';
 
 	export let tag: typeof tagSchema.$inferSelect;
 	export let forms: {
-		delete: SuperValidated<any, any, any>;
-		update: SuperValidated<any, any, any>;
+		delete: SuperValidated<Infer<DeleteSchema>>;
+		update: SuperValidated<Infer<UpdateSchema>>;
 	};
 
 	const actions = {

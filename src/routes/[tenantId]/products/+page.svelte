@@ -2,4 +2,4 @@
 	export let data;
 </script>
 
-<div>Welcome back {data.username}</div>
+<h1>Products</h1>

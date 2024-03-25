@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Badge from '$lib/components/ui/badge/badge.svelte';
 	import DialogCreateTagGroup from './components/dialog/dialog-create-tag-group.svelte';
 	import TableTagGroups from './components/table/table-tag-groups.svelte';
 
@@ -24,5 +23,3 @@
 		}}
 	/>
 {/if}
-
-<Badge class="w-fit text-sm">{data.tenantId}</Badge>

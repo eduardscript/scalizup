@@ -130,7 +130,6 @@ export const actions: Actions = {
 		}
 
 		if (!form.valid) {
-			console.log('error');
 			return fail(400, { form });
 		}
 

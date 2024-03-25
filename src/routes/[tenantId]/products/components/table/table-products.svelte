@@ -6,10 +6,10 @@
 	import { writable } from 'svelte/store';
 	import type { tagGroupSchema } from '$lib/db/schema/tenant_schema';
 	import TableCellTagGroupActions from './cells/table-cell-tag-group-actions.svelte';
-	import TableCellTagGroupEntities from './cells/table-cell-tag-group-entities.svelte';
+	import TableCellTagGroupEntities from './cells/table-cell-product-entities.svelte';
 	import type { Infer, SuperValidated } from 'sveltekit-superforms';
 	import type { DeleteSchema, UpdateSchema } from '../../schemas';
-
+	import TableCellProductEntities from './cells/table-cell-product-entities.svelte';
 	export let data: {
 		entities: (typeof tagGroupSchema.$inferSelect)[];
 		totalEntities: number;
@@ -49,7 +49,7 @@
 			id: 'entities',
 			header: 'Related Entities',
 			cell: ({ value }) =>
-				createRender(TableCellTagGroupEntities, {
+				createRender(TableCellProductEntities, {
 					data: {
 						tenantId: value.tenantId,
 						tagGroupId: value.id

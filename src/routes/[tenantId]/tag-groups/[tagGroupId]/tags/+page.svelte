@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Badge from '$lib/components/ui/badge/badge.svelte';
 	import { ArrowLeft } from 'lucide-svelte';
 	import DialogCreateTag from './dialog/dialog-create-tag.svelte';
 	import TableTags from './table/table-tags.svelte';
@@ -31,5 +30,3 @@
 		}}
 	/>
 {/if}
-
-<Badge class="w-fit text-sm">{data.tenantId}</Badge>

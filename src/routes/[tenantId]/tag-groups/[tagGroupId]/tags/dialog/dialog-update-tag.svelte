@@ -1,16 +1,16 @@
 <script lang="ts">
 	import * as Dialog from '$lib/components/ui/dialog';
 	import * as Form from '$lib/components/ui/form';
-	import { superForm, type SuperValidated } from 'sveltekit-superforms';
+	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { Input } from '$lib/components/ui/input';
 	import { toast } from 'svelte-sonner';
 	import type { tagSchema } from '$lib/db/schema/tenant_schema';
-	import { updateSchema } from '../schemas';
+	import { updateSchema, type UpdateSchema } from '../schemas';
 
 	export let open: boolean;
 	export let tag: typeof tagSchema.$inferSelect;
-	export let updateForm: SuperValidated<any, any, any>;
+	export let updateForm: SuperValidated<Infer<UpdateSchema>>;
 
 	const form = superForm(updateForm, {
 		validators: zodClient(updateSchema),

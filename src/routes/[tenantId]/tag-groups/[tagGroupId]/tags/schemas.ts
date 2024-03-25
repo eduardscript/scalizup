@@ -6,11 +6,17 @@ export const createSchema = z.object({
 	tenantId: z.coerce.number().min(0)
 });
 
+export type CreateSchema = typeof createSchema;
+
 export const updateSchema = z.object({
 	id: z.number().min(0),
 	name: z.string().min(2).max(50)
 });
 
+export type UpdateSchema = typeof updateSchema;
+
 export const deleteSchema = z.object({
 	id: z.number().min(0)
 });
+
+export type DeleteSchema = typeof deleteSchema;

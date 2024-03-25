@@ -1,17 +1,17 @@
 <script lang="ts">
 	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
 	import * as Form from '$lib/components/ui/form';
-	import SuperDebug, { superForm, type SuperValidated } from 'sveltekit-superforms';
+	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { Input } from '$lib/components/ui/input';
 	import { toast } from 'svelte-sonner';
-	import { deleteSchema } from '../schemas';
+	import { deleteSchema, type DeleteSchema } from '../schemas';
 
 	import type { tagSchema } from '$lib/db/schema/tenant_schema';
 
 	export let open: boolean;
 	export let tag: typeof tagSchema.$inferSelect;
-	export let deleteForm: SuperValidated<any, any, any>;
+	export let deleteForm: SuperValidated<Infer<DeleteSchema>>;
 
 	const form = superForm(deleteForm, {
 		id: tag.id.toString(),

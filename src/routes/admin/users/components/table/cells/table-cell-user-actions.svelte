@@ -2,16 +2,15 @@
 	import { Ellipsis, Pencil, History, Trash2 } from 'lucide-svelte/icons';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { Button } from '$lib/components/ui/button';
-	import type { tagGroupSchema } from '$lib/db/schema/tenant_schema';
-	import DialogDeleteTagGroup from '../../dialog/dialog-delete-tag-group.svelte';
-	import DialogUpdateTagGroup from '../../dialog/dialog-update-tag-group.svelte';
-	import type { DeleteSchema, UpdateSchema } from '../../../schemas';
-	import type { Infer, SuperValidated } from 'sveltekit-superforms';
+	import type { tagSchema } from '$lib/db/schema/tenant_schema';
+	// import DialogDeleteTag from '../../dialog/dialog-delete-tag.svelte';
+	// import DialogUpdateTag from '../../dialog/dialog-update-tag.svelte';
+	import type { SuperValidated } from 'sveltekit-superforms';
 
-	export let tagGroup: typeof tagGroupSchema.$inferSelect;
+	export let tag: typeof tagSchema.$inferSelect;
 	export let forms: {
-		update: SuperValidated<Infer<UpdateSchema>>;
-		delete: SuperValidated<Infer<DeleteSchema>>;
+		delete: SuperValidated<any, any, any>;
+		update: SuperValidated<any, any, any>;
 	};
 
 	const actions = {
@@ -20,8 +19,8 @@
 	};
 </script>
 
-<DialogDeleteTagGroup bind:open={actions.delete} {tagGroup} deleteForm={forms.delete} />
-<DialogUpdateTagGroup bind:open={actions.update} {tagGroup} updateForm={forms.update} />
+<!-- <DialogDeleteTag bind:open={actions.delete} {tag} deleteForm={forms.delete} />
+<DialogUpdateTag bind:open={actions.update} {tag} updateForm={forms.update} /> -->
 
 <DropdownMenu.Root>
 	<DropdownMenu.Trigger asChild let:builder>
@@ -32,7 +31,7 @@
 	</DropdownMenu.Trigger>
 	<DropdownMenu.Content>
 		<DropdownMenu.Group>
-			<DropdownMenu.Label>Actions of {tagGroup.id}</DropdownMenu.Label>
+			<DropdownMenu.Label>Actions of {tag.id}</DropdownMenu.Label>
 			<DropdownMenu.Item
 				class="flex gap-2 data-[highlighted]:text-amber-400"
 				on:click={() => (actions.update = true)}
